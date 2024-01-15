@@ -1,5 +1,6 @@
 import nltk
 from nltk.tokenize import word_tokenize
+from flashcard_maker import FlashCardMaker
 import os
 from openai_transcriber import OpenAITranscriber
 from openai_api import OpenaiApi
@@ -107,4 +108,20 @@ for filename in os.listdir(AUDIO_FILES_PATH):
         # Save all notes to a single .txt file
         with open(f"{NOTES_FOLDER}{filename[:-4]}.txt", 'w') as file:
             file.write(all_notes)
+
+# go through notes folder, for each file, create flashcards
+flashcard_maker = FlashCardMaker()
+for filename in os.listdir(NOTES_FOLDER):
+    if filename.endswith(".txt"):
+        with open(f"{NOTES_FOLDER}{filename}", 'r') as file:
+            notes = file.read()
+            flashcards = flashcard_maker.generate_flashcards_from_text(notes)
+            
+            with open(f"{NOTES_FOLDER}{filename[:-4]}.json", 'w') as file:
+                file.write(flashcards)
+            
+            print(f"Saved to {NOTES_FOLDER}{filename[:-4]}.json")
+
+
+
 
