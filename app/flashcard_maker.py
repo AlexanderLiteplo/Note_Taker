@@ -9,7 +9,7 @@ class FlashCardMaker:
         print("FlashCardMaker initialized")
     
     def generate_flashcards_from_text(self, text):
-        openai.api_key = "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"
+        openai.api_key = "your key here"
 
         flashcards = None
         max_attempts = 10
