@@ -1,16 +1,48 @@
 import openai
+from nltk.tokenize import word_tokenize
 import logging
 import os
 import json
 
 logging.basicConfig(level=logging.INFO)
 class FlashCardMaker:
-    def __init__(self):
+    def __init__(self, api_key):
+        self.api_key = api_key
         print("FlashCardMaker initialized")
+        
+    def create_flashcards(self, text):
+        flashcards = []
+        chunks = self.chunk_text(text)
+        for chunk in chunks:
+            flashcards.append(self.generate_flashcards_from_text(chunk))
+        return flashcards
+        
+    def chunk_text(self, text):
+        tokens = word_tokenize(text)
+        
+        chunks = []
+        current_chunk = []
+        current_token_count = 0
+        for token in tokens:
+            if current_token_count + len(token) > 4096:
+                # If adding the next token would exceed the limit, we start a new chunk
+                chunks.append(' '.join(current_chunk))
+                current_chunk = [token]
+                current_token_count = len(token)
+            else:
+                # Otherwise, we add the token to the current chunk
+                current_chunk.append(token)
+                current_token_count += len(token)
+        
+        # Don't forget to add the last chunk if it's non-empty
+        if current_chunk:
+            chunks.append(' '.join(current_chunk))
+        
+        return chunks
     
     def generate_flashcards_from_text(self, text):
-        openai.api_key = "your key here"
-
+        openai.api_key = self.api_key
+        
         flashcards = None
         max_attempts = 10
         num_attempts = 0

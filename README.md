@@ -6,11 +6,10 @@ EmojiNote is a state-of-the-art Python application designed to revolutionize the
 **Emoji-Enriched Notes**: Transforms plain text into beautifully formatted notes, sprinkled with relevant emojis for better engagement and memory retention.
 **Flashcard Generation**: Automatically creates flashcards from key lecture points, making revision a breeze.
 **Hands-Free Note-Taking**: Focus on learning, not writing. EmojiNote takes care of note-taking for you.
-Getting Started
+
 ## Prerequisites
 Python 3.x
 A valid OpenAI API key
-A valid Whisper API key
 
 ## How It Works
 **Transcription**: The application first uses Whisper API to transcribe the audio from your lecture.
